@@ -22,13 +22,6 @@ public class OrderController {
         return orderService.getOrderById(orderId);
     }
 
-    @GetMapping("/order")
-    public int getOrder1(){
-        return 1;
-    }
-
-
-
     @PostMapping("/createOrder")
     public void addOrder(@RequestBody OrderDetailsDTO orderDetailsDTO){
         log.info("insidereateOrder");
