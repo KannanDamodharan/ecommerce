@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,12 +13,23 @@ public class AddressEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
 
+    //@NonNull
     private String orderShippingAddressline1;
+
     private String orderShippingAddressline2;
+
+    //@NonNull
     private String orderCity;
+
+    //@NonNull
     private String orderState;
+
+    //@NonNull
     private String orderZip;
-    //To avoid multiple columns
+
+    //@NonNull
     private String addressType;
+
+    //@NonNull
     private Date updatedTime;
 }

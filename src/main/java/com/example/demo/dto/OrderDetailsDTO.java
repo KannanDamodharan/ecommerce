@@ -5,10 +5,11 @@ import com.example.demo.entity.ItemEntity;
 import com.example.demo.entity.PaymentEntity;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class OrderDetailsDTO {
+public class OrderDetailsDTO implements Serializable {
 
     private String orderStatus;
     private Long orderCustomerId;

@@ -4,28 +4,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
+@EnableSwagger2
 public class DemoApplication {
-
-	@Autowired
-	Environment environment;
-
-	@Value("${server.port}")
-	private int port;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@PostConstruct
-	public void init(){
-		System.out.println("server.port: {}"+port);
-		System.out.println("environment.port: {}"+environment.getProperty("server.port"));
-		System.out.println("environment.port: {}"+environment.getProperty("server.host"));
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.any())
+				.paths(PathSelectors.any())
+				.build()
+				.apiInfo(new ApiInfoBuilder()
+						.title("Egen Ecommerce")
+						.description("This is a Documentation for Ecommerce")
+						.version("1.0").build());
 	}
 
 }

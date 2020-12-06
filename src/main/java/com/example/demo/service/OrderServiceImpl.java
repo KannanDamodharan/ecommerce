@@ -22,14 +22,18 @@ public class OrderServiceImpl {
     private OrderDao orderDao;
 
     public Optional<OrderEntity> getOrderById(Long orderId){
-        Optional<OrderEntity> obj = orderDao.findById(orderId);
-        return obj;
+        if(orderId!=null) {
+            return orderDao.findById(orderId);
+        }
+        return Optional.empty();
     }
 
     public void createOrder(OrderDetailsDTO orderDetailsDTO) {
         OrderEntity orderEntity = new OrderEntity();
+
         orderEntity.setOrderCustomerId(orderDetailsDTO.getOrderCustomerId());
         orderEntity.setOrderStatus(orderDetailsDTO.getOrderStatus());
+
         orderEntity.setOrderShippingCharges(orderDetailsDTO.getOrderShippingCharges());
         orderEntity.setOrderTotal(orderDetailsDTO.getOrderTotal());
 
@@ -44,13 +48,11 @@ public class OrderServiceImpl {
         log.info("after save");
     }
 
-    public void cancelOrder(int orderId) {
-        orderDao.updateOrder(orderId);
-        /*Optional<OrderEntity> obj = orderDao.findById(orderId);
-        log.info("delete called in servic");
-        if(obj.isPresent()) {
-            obj.get().setIsCancel(Boolean.TRUE);
-            orderDao.save(obj.get());
-        }*/
+    public Boolean cancelOrder(Long orderId) {
+        if(orderId!=null) {
+            orderDao.updateOrder(orderId);
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 }

@@ -8,7 +8,6 @@ import com.example.demo.entity.OrderEntity;
 import com.example.demo.entity.PaymentEntity;
 import com.example.demo.service.OrderServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +24,11 @@ public class OrderController {
 
     @GetMapping("/order/{orderId}")
     public Optional<OrderEntity> getOrder(@PathVariable Long orderId){
-        return orderService.getOrderById(orderId);
+        log.debug("Get Order orderId: "+orderId);
+        if(orderId!=null) {
+            return orderService.getOrderById(orderId);
+        }
+        return Optional.empty();
     }
 
     @PostMapping("/createOrder")
@@ -34,6 +37,10 @@ public class OrderController {
         orderService.createOrder(orderDetailsDTO);
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/createData")
     public OrderDetailsDTO create(){
         OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
@@ -42,7 +49,6 @@ public class OrderController {
         orderDetailsDTO.setOrderStatus("Receivd");
         orderDetailsDTO.setOrderTotal(new Double(1294.55));
         orderDetailsDTO.setOrderShippingCharges(new Double(74.6));
-
         ItemEntity itemEntity1 = new ItemEntity();
         ItemEntity itemEntity2 = new ItemEntity();
 
@@ -106,16 +112,15 @@ public class OrderController {
         return orderDetailsDTO;
     }
 
-
-    /*@PostMapping("/createOrderItems")
-    public void addMultipleItems(@RequestBody List<OrderDetailsDTO> orderDetailsDTO){
-        log.info("mul items");
-        orderService.addItems(orderDetailsDTO);
-    }*/
+    //implement update order
+    @PutMapping("/updateOrder")
+    public void updateOrder(@RequestBody OrderDetailsDTO orderDetailsDTO){
+        orderService.createOrder(orderDetailsDTO);
+    }
 
     @DeleteMapping("/cancelOrder/{orderId}")
-    public void cancelOrder(@PathVariable int orderId){
-        orderService.cancelOrder(orderId);
+    public Boolean cancelOrder(@PathVariable Long orderId){
+        return orderService.cancelOrder(orderId);
     }
 
 }
