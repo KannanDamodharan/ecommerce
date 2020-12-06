@@ -1,14 +1,23 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.AddressEntity;
+import com.example.demo.entity.ItemEntity;
+import com.example.demo.entity.PaymentEntity;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class OrderDetailsDTO {
 
     private String orderStatus;
-    private String orderCustomerId;
-    private Integer orderShippingCharges;
-    private Integer orderTotal;
+    private Long orderCustomerId;
+    private Double orderShippingCharges;
+    private Double orderTotal;
+
+    private List<ItemEntity> itemEntityList;
+    private List<AddressEntity> addressEntity;
+    private List<PaymentEntity> paymentEntityList;
 
 
     /*private String orderItemName;

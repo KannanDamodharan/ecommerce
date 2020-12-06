@@ -21,28 +21,36 @@ public class OrderServiceImpl {
     @Autowired
     private OrderDao orderDao;
 
-    public Optional<OrderEntity> getOrderById(int orderId){
+    public Optional<OrderEntity> getOrderById(Long orderId){
         Optional<OrderEntity> obj = orderDao.findById(orderId);
         return obj;
     }
 
-
     public void createOrder(OrderDetailsDTO orderDetailsDTO) {
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setOrder_customer_id(orderDetailsDTO.getOrderCustomerId());
-        orderEntity.setOrder_status(orderDetailsDTO.getOrderStatus());
-        orderEntity.setOrder_shipping_charges(orderDetailsDTO.getOrderShippingCharges());
-        orderEntity.setOrder_total(orderDetailsDTO.getOrderTotal());
+        orderEntity.setOrderCustomerId(orderDetailsDTO.getOrderCustomerId());
+        orderEntity.setOrderStatus(orderDetailsDTO.getOrderStatus());
+        orderEntity.setOrderShippingCharges(orderDetailsDTO.getOrderShippingCharges());
+        orderEntity.setOrderTotal(orderDetailsDTO.getOrderTotal());
+
+        orderEntity.setOrderShippingCharges(orderDetailsDTO.getOrderShippingCharges());
+
+        orderEntity.setPaymentEntity(orderDetailsDTO.getPaymentEntityList());
+        orderEntity.setItemEntity(orderDetailsDTO.getItemEntityList());
+        orderEntity.setAddressEntity(orderDetailsDTO.getAddressEntity());
+
         log.info("save method");
         orderDao.save(orderEntity);
+        log.info("after save");
     }
 
     public void cancelOrder(int orderId) {
-        Optional<OrderEntity> obj = orderDao.findById(orderId);
+        orderDao.updateOrder(orderId);
+        /*Optional<OrderEntity> obj = orderDao.findById(orderId);
         log.info("delete called in servic");
         if(obj.isPresent()) {
             obj.get().setIsCancel(Boolean.TRUE);
             orderDao.save(obj.get());
-        }
+        }*/
     }
 }

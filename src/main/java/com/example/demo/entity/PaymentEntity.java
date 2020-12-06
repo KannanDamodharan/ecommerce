@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,17 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
+@Data
 @Entity(name = "payment")
-@Getter
-@Setter
 public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int payment_id;
+    private Long paymentId;
 
-    private String order_payment_method;
-    private String order_payment_date;
-    private String order_payment_confirmation_number;
+    private String orderPaymentMethod;
+    private Date orderPaymentDate;
+    private Long orderPaymentConfirmationNumber;
+    private Date updatedTime;
 }
