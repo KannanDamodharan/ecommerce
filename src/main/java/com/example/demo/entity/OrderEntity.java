@@ -1,12 +1,13 @@
 package com.example.demo.entity;
 import lombok.Data;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ *This is the entity class for Order details
+ */
 @Data
 @Entity(name = "orderItem")
 public class OrderEntity {

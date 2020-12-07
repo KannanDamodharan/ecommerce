@@ -6,7 +6,8 @@ import com.example.demo.entity.AddressEntity;
 import com.example.demo.entity.ItemEntity;
 import com.example.demo.entity.OrderEntity;
 import com.example.demo.entity.PaymentEntity;
-import com.example.demo.service.OrderServiceImpl;
+import com.example.demo.service.OrderService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ *This controller receives all order related service calls.
+ *Below methods perform Get, Put, Post, Delete are performed for a given order
+ */
 @RestController
 @Slf4j
+@Data
 public class OrderController {
 
     @Autowired
-    private OrderServiceImpl orderService;
+    private OrderService orderService;
 
+    /**
+     *getOrder method accepts orderId and contacts service layer for fetching order details
+     * @return OrderDetailsDTO
+     */
     @GetMapping("/order/{orderId}")
     public Optional<OrderEntity> getOrder(@PathVariable Long orderId){
         log.debug("Get Order orderId: "+orderId);
@@ -31,10 +41,15 @@ public class OrderController {
         return Optional.empty();
     }
 
+    /**
+     *getOrder method accepts OrderDetailsDTO and calls service layer for creating new order
+     * @return OrderDetailsDTO with new orderId
+     */
     @PostMapping("/createOrder")
-    public void addOrder(@RequestBody OrderDetailsDTO orderDetailsDTO){
-        log.info("insidereateOrder");
-        orderService.createOrder(orderDetailsDTO);
+    public OrderDetailsDTO addOrder(@RequestBody OrderDetailsDTO orderDetailsDTO) throws Exception{
+        log.debug("Create Order CustomerId: "+orderDetailsDTO.getOrderCustomerId());
+        log.debug("Create Order orderId"+orderDetailsDTO.getOrderId());
+        return orderService.createOrder(orderDetailsDTO);
     }
 
     /**
@@ -42,7 +57,8 @@ public class OrderController {
      * @return
      */
     @GetMapping("/createData")
-    public OrderDetailsDTO create(){
+    public OrderDetailsDTO create() throws Exception{
+        log.info("inside create data");
         OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
 
         orderDetailsDTO.setOrderCustomerId(new Long(1234));
@@ -108,16 +124,24 @@ public class OrderController {
         orderDetailsDTO.setAddressEntity(addressEntityList);
         orderDetailsDTO.setItemEntityList(itemEntityList);
 
-        orderService.createOrder(orderDetailsDTO);
+        OrderEntity orderEntity = orderService.updateOrder(orderDetailsDTO);
+        log.info("Before return -"+orderEntity.getOrderId());
         return orderDetailsDTO;
     }
 
-    //implement update order
+    /**
+     *getOrder method accepts OrderDetailsDTO and calls service layer for updating an existing order
+     * @return OrderDetailsDTO (with newly generated ids if needed)
+     */
     @PutMapping("/updateOrder")
-    public void updateOrder(@RequestBody OrderDetailsDTO orderDetailsDTO){
-        orderService.createOrder(orderDetailsDTO);
+    public void updateOrder(@RequestBody OrderDetailsDTO orderDetailsDTO) throws Exception{
+        orderService.updateOrder(orderDetailsDTO);
     }
 
+    /**
+     *getOrder method accepts OrderDetailsDTO and calls service layer for creating new order
+     * @return OrderDetailsDTO with new orderId
+     */
     @DeleteMapping("/cancelOrder/{orderId}")
     public Boolean cancelOrder(@PathVariable Long orderId){
         return orderService.cancelOrder(orderId);

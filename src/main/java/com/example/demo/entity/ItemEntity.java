@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
+/**
+ *This is the entity class for Order Items details
+ */
 @Data
 @Entity(name = "Item")
 public class ItemEntity {
@@ -34,4 +37,7 @@ public class ItemEntity {
 
     //@NonNull
     private Date updatedTime;
+
+    //@NonNull
+    private Boolean isCancel;
 }

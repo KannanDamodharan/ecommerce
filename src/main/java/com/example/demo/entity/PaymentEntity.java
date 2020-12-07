@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 /**
- *
+ *This is the entity class for Payment details
  */
 @Data
 @Entity(name = "payment")

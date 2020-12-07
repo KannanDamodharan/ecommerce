@@ -10,10 +10,8 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface OrderDao extends JpaRepository<OrderEntity, Long> {
-
     @Transactional
     @Modifying
     @Query(value="UPDATE orderItem SET isCancel = True WHERE order_id=?1")
     void updateOrder(Long orderId);
-
 }
