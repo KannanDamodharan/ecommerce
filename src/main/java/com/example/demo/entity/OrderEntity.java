@@ -40,13 +40,13 @@ public class OrderEntity {
     //@NonNull
     private Date updatedTime;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.MERGE})
     private List<ItemEntity> itemEntity;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.MERGE})
     private List<PaymentEntity> paymentEntity;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.MERGE})
     private List<AddressEntity> addressEntity;
 
 

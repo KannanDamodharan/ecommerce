@@ -10,6 +10,8 @@ import com.example.demo.service.OrderService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -33,12 +35,12 @@ public class OrderController {
      * @return OrderDetailsDTO
      */
     @GetMapping("/order/{orderId}")
-    public Optional<OrderEntity> getOrder(@PathVariable Long orderId){
+    public ResponseEntity<?> getOrder(@PathVariable Long orderId){
         log.debug("Get Order orderId: "+orderId);
         if(orderId!=null) {
-            return orderService.getOrderById(orderId);
+            return new ResponseEntity<>(orderService.getOrderById(orderId),HttpStatus.OK);
         }
-        return Optional.empty();
+        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -46,10 +48,10 @@ public class OrderController {
      * @return OrderDetailsDTO with new orderId
      */
     @PostMapping("/createOrder")
-    public OrderDetailsDTO addOrder(@RequestBody OrderDetailsDTO orderDetailsDTO) throws Exception{
+    public ResponseEntity<?> addOrder(@RequestBody OrderDetailsDTO orderDetailsDTO) throws Exception{
         log.debug("Create Order CustomerId: "+orderDetailsDTO.getOrderCustomerId());
-        log.debug("Create Order orderId"+orderDetailsDTO.getOrderId());
-        return orderService.createOrder(orderDetailsDTO);
+        log.info("Create Order orderId"+orderDetailsDTO.getOrderId());
+        return new ResponseEntity<>(orderService.createOrder(orderDetailsDTO), HttpStatus.CREATED);
     }
 
     /**
@@ -134,8 +136,8 @@ public class OrderController {
      * @return OrderDetailsDTO (with newly generated ids if needed)
      */
     @PutMapping("/updateOrder")
-    public void updateOrder(@RequestBody OrderDetailsDTO orderDetailsDTO) throws Exception{
-        orderService.updateOrder(orderDetailsDTO);
+    public ResponseEntity<?> updateOrder(@RequestBody OrderDetailsDTO orderDetailsDTO) throws Exception{
+        return new ResponseEntity<>(orderService.updateOrder(orderDetailsDTO),HttpStatus.OK);
     }
 
     /**
@@ -143,8 +145,11 @@ public class OrderController {
      * @return OrderDetailsDTO with new orderId
      */
     @DeleteMapping("/cancelOrder/{orderId}")
-    public Boolean cancelOrder(@PathVariable Long orderId){
-        return orderService.cancelOrder(orderId);
+    public ResponseEntity<?> cancelOrder(@PathVariable Long orderId){
+        if(orderService.cancelOrder(orderId)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
