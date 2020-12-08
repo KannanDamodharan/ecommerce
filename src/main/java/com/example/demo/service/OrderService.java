@@ -1,16 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.OrderDetailsDTO;
-import com.example.demo.entity.OrderEntity;
+import com.example.demo.entity.Orders;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    Optional<OrderEntity> getOrderById(Long orderId);
+    Optional<Orders> getOrderById(Long orderId);
 
-    OrderDetailsDTO createOrder(OrderDetailsDTO orderDetailsDTO) throws Exception;
-
-    OrderEntity updateOrder(OrderDetailsDTO orderDetailsDTO) throws Exception;
+    Orders updateOrder(Orders orders) throws Exception;
 
     Boolean cancelOrder(Long orderId);
+
+    List<Orders> getOrdersByCustomerId(Long customerId);
 }
