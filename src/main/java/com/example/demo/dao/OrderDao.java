@@ -13,7 +13,7 @@ import java.util.List;
 public interface OrderDao extends JpaRepository<Orders, Long> {
     @Transactional
     @Modifying
-    @Query(value="UPDATE orders SET isCancel = True WHERE order_id=?1")
+    @Query(value="UPDATE orders SET orderStatus = 'Cancelled' WHERE order_id=?1")
     void updateOrder(Long orderId);
 
     List<Orders> findByCustomerId(Long customerId);

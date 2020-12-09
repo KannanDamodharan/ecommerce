@@ -17,27 +17,25 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long addressId;
 
-    //@NonNull
+    @NonNull
     private String addressline1;
 
     private String addressline2;
 
-    //@NonNull
+    @NonNull
     private String city;
 
-    //@NonNull
+    @NonNull
     private String state;
 
-    //@NonNull
+    @NonNull
     private String zip;
 
-    //@NonNull
+    @NonNull
     private String addressType;
 
-    //@NonNull
+    @NonNull
     @UpdateTimestamp
     private Date updatedTime;
 
-    /*@ManyToOne
-    private Orders orderEntity;*/
 }

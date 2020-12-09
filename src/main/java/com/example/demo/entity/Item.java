@@ -2,9 +2,12 @@ package com.example.demo.entity;
 
 
 import lombok.Data;
+import lombok.NonNull;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 /**
@@ -18,25 +21,22 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long itemId;
 
-    //@NonNull
+    @NonNull
     private String name;
 
-    //@NonNull
+    @NonNull
+    @Min(1)
     private Integer qty;
 
-    //@NonNull
+    @NonNull
+    @DecimalMin("0.00")
     private Double subtotal;
 
-    //@NonNull
+    @NonNull
+    @DecimalMin("0.00")
     private Double tax;
 
-    //@NonNull
+    @NonNull
     @UpdateTimestamp
     private Date updatedTime;
-
-    //@NonNull
-    //private Boolean isCancel;
-
-    /*@ManyToOne
-    private Orders orderEntity;*/
 }

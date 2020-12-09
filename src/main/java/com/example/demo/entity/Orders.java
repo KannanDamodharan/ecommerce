@@ -1,8 +1,12 @@
 package com.example.demo.entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+
+import javax.validation.constraints.DecimalMin;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,32 +21,33 @@ enum DeliveryType {
 
 @Data
 @Entity(name = "orders")
+@NoArgsConstructor
 public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderId;
 
-    //@NonNull
+    @NonNull
     private String orderStatus;
 
-    //@NonNull
+    @NonNull
     private Long customerId;
 
-    //@NonNull
+    @NonNull
+    @DecimalMin("0.00")
     private Double shippingCharges;
 
-    //@NonNull
+    @NonNull
     private String shippingDelivery;
 
-    //@NonNull
+    @NonNull
+    @DecimalMin("0.00")
     private Double total;
 
-    //@NonNull
     @CreatedDate
     private Date createdTime;
 
-    //@NonNull
     @UpdateTimestamp
     private Date updatedTime;
 

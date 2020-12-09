@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/*To save Billing and Shipping Address
+* PUT and POST are performed*/
+
 @RestController
 @RequestMapping("/address")
 public class AddressController {

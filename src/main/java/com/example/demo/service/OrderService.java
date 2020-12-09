@@ -1,16 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Orders;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    Optional<Orders> getOrderById(Long orderId);
+    ResponseEntity<?> getOrderById(Long orderId);
 
-    Orders updateOrder(Orders orders) throws Exception;
+    Orders updateOrder(Orders orders);
 
     Boolean cancelOrder(Long orderId);
 
-    List<Orders> getOrdersByCustomerId(Long customerId);
+    ResponseEntity<?> getOrdersByCustomerId(Long customerId);
+
+    ResponseEntity<?> addBulkOrders(List<Orders> ordersList);
 }

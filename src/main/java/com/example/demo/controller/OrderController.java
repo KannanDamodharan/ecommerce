@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  *This controller receives all order related service calls.
  *Below methods perform Get, Put, Post, Delete are performed for a given order
@@ -25,51 +27,71 @@ public class OrderController {
     private OrderService orderService;
 
     /**
-     *getOrder method accepts orderId and contacts service layer for fetching order details
-     * @return OrderDetailsDTO
+     *getOrder method accepts orderId and fetches the order details for the id
+     * @return ResponseEntity with the updated HTTPStatus
      */
     @GetMapping("/{orderId}")
     public ResponseEntity<?> getOrder(@PathVariable Long orderId){
         log.debug("Get Order orderId: "+orderId);
         if(orderId!=null) {
-            return new ResponseEntity<>(orderService.getOrderById(orderId),HttpStatus.OK);
+            return orderService.getOrderById(orderId);
         }
-        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
-    /**
-     *getOrder method accepts OrderDetailsDTO and calls service layer for creating new order
-     * @return OrderDetailsDTO with new orderId
-     */
+
     @PostMapping
-    public ResponseEntity<?> addOrder(@RequestBody Orders orders) throws Exception{
-        return new ResponseEntity<>(orderService.updateOrder(orders), HttpStatus.CREATED);
+    public ResponseEntity<?> addOrder(@RequestBody Orders orders){
+        if(orders!=null) {
+            return new ResponseEntity<>(orderService.updateOrder(orders), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
-    /**
-     *getOrder method accepts OrderDetailsDTO and calls service layer for updating an existing order
-     * @return OrderDetailsDTO (with newly generated ids if needed)
-     */
     @PutMapping
     public ResponseEntity<?> updateOrder(@RequestBody Orders orders) throws Exception{
-        return new ResponseEntity<>(orderService.updateOrder(orders),HttpStatus.OK);
+        if(orders!=null) {
+            return new ResponseEntity<>(orderService.updateOrder(orders), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     /**
-     *getOrder method accepts OrderDetailsDTO and calls service layer for creating new order
-     * @return OrderDetailsDTO with new orderId
+     *cancelOrder method accepts orderId and cancels the order for the given orderId.
+     * @return ResponseEntity with updated httpstatus
      */
     @DeleteMapping
     public ResponseEntity<?> cancelOrder(@PathVariable Long orderId){
-        if(orderService.cancelOrder(orderId)){
-            return new ResponseEntity<>(HttpStatus.OK);
+        log.debug("cancel Order orderId: "+orderId);
+        if(orderId!=null){
+            return new ResponseEntity<>(orderService.cancelOrder(orderId),HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
+    /**
+     *getOrders method accepts customerId and returns with all the orders of the customer
+     * @return ResponseEntity with updated httpstatus
+     */
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<?> getOrders(@PathVariable Long customerId){
-        return new ResponseEntity<>(orderService.getOrdersByCustomerId(customerId),HttpStatus.OK);
+        log.debug("getOrders customerId: "+customerId);
+        if(customerId!=null) {
+            return new ResponseEntity<>(orderService.getOrdersByCustomerId(customerId), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    /**
+     *getOrders method accepts customerId and returns with all the orders of the customer
+     * @return ResponseEntity with updated httpstatus
+     */
+    @PostMapping("/bulk")
+    public ResponseEntity<?> addOrders(@RequestBody List<Orders> orderList){
+        if(orderList!=null && orderList.size()>0) {
+            return orderService.addBulkOrders(orderList);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

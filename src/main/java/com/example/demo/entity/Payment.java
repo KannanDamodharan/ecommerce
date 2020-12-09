@@ -3,6 +3,7 @@ package com.example.demo.entity;
 
 import lombok.Data;
 
+import lombok.NonNull;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -19,19 +20,13 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long paymentId;
 
-    //@NonNull
+    @NonNull
     private String paymentMethod;
 
     @UpdateTimestamp
     private Date paymentDate;
 
-    //@NonNull
+    @NonNull
     private Long confirmationNumber;
-
-    /*@UpdateTimestamp
-    private Date updatedTime;*/
-
-    /*@ManyToOne
-    private Orders orderEntity;*/
 
 }
