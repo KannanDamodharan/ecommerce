@@ -16,6 +16,7 @@ public class KafkaProducer {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    /*send order to kafka topic*/
     public ResponseEntity<?> send(String topic, String payload) throws Exception{
             kafkaTemplate.send(topic, payload);
             return new ResponseEntity<>(HttpStatus.OK);
