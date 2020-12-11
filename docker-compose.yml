@@ -1,0 +1,19 @@
+version: '2'
+services:
+    egen-ecomm:
+        container_name: egen-app
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: egen:latest
+        ports:
+            - 8099:8080
+        depends_on:
+          - ourdb
+    ourdb:
+      container_name: egen-db
+      image: postgres
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=root
+        - POSTGRES_DB=ecommerce
