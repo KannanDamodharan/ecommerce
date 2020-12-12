@@ -18,10 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @Data
-@Setter
 @Slf4j
+@Service
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
